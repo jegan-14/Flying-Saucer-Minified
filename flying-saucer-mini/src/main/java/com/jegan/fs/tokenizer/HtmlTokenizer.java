@@ -7,11 +7,10 @@ public class HtmlTokenizer
         int len = html.length();
         while (start < len)
         {
-            int end;
             char currentCharacter = html.charAt(start);
             if (currentCharacter == '<')
             {
-                end = html.indexOf('>', start);
+                int end = html.indexOf('>', start);
                 String tag = html.substring(start + 1, end);
                 if (tag.charAt(0) == '/')
                 {
@@ -21,10 +20,11 @@ public class HtmlTokenizer
                 {
                     tokens.add(new Token(TokenType.OPEN_TAG, tag));
                 }
+                start = end + 1;
             }
             else
             {
-                end = html.indexOf('<', start);
+                int end = html.indexOf('<', start);
                 if (end == -1)
                 {
                     end = len;
@@ -34,8 +34,8 @@ public class HtmlTokenizer
                 {
                     tokens.add(new Token(TokenType.TEXT, text));
                 }
+                start = end;
             }
-            start = end + 1;
         }
         return tokens;
     }
